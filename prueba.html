@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>te quiero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #222;
+            flex-direction: column;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            padding: 0 20px; /* Añadir un poco de espacio lateral */
+        }
+
+        h1 {
+            font-size: 2.5em; /* Ajustar tamaño para pantallas pequeñas */
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            border: 2px solid #444;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+            width: 100%; /* Hacer que el canvas sea responsive */
+            max-width: 600px; /* Limitar el tamaño máximo */
+            height: auto; /* Ajustar la altura automáticamente */
+        }
+
+        audio {
+            display: none; /* Ocultar el audio */
+        }
+    </style>
+</head>
+<body>
+    <h1>Para la más preciosa, trabajadora, valiente y valiosa💗🌺</h1>
+    <audio id="audio" autoplay loop>
+        <source src="https://r1---sn-uxaxj5caxjg-nwvs.googlevideo.com/videoplayback?expire=1726936335&ei=t_LuZsz6Iu2bzN0P-ZDbuQo&ip=0.0.0.0&id=7a376da07cab6a2f&itag=25&source=yt_reference&requiressl=yes&xpc=Egho2aDSNXoBAQ==&susc=ytcm&mime=audio/mpeg&vprv=1&rqh=1&gir=yes&clen=6556771&ratebypass=yes&dur=163.918&lmt=1574261145897499&title=Jukebox%20-%20Patrick%20Patrikios&ext=mp3&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,susc,mime,vprv,rqh,gir,clen,ratebypass,dur,lmt,title,ext&sig=AJfQdSswRgIhANmATxSRZS4K-3-BUxewqTjTUxPUGhVtxVOKmtV3UZdQAiEA2Z1jLbspuABJ0SzwhuCn0RBp_lpfUKINrBtvLZbRY0E=&cms_redirect=yes&mh=cD&mip=177.93.0.54&mm=31&mn=sn-uxaxj5caxjg-nwvs&ms=au&mt=1726935421&mv=m&mvi=1&pcm2cms=yes&pl=24&lsparams=mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl&lsig=ABPmVW0wRQIhAOCxqcQ4J1vKjQXGpKZPe8XvxsgnB97Nd1Dv4L4L3XJLAiBl54vwM9BCFPmofzSIutnmz21DpJ_UQSm3RBqgRlK06w%3D%3D" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <canvas id="florCanvas" width="600" height="600"></canvas>
+
+    <script>
+        window.onload = function() {
+            let canvas = document.getElementById('florCanvas');
+            let ctx = canvas.getContext('2d');
+
+            function dibujarFlorConTallo(x, y, petalos, radioPétalo, radioCentro, intervaloDibujo) {
+                let anguloPaso = (Math.PI * 2) / petalos;
+                let i = 0;
+
+                ctx.beginPath();
+                ctx.moveTo(x, y + radioCentro);
+                ctx.lineTo(x, y + 200);
+                ctx.strokeStyle = 'green';
+                ctx.lineWidth = 5;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(x, y + 100);
+                ctx.quadraticCurveTo(x - 30, y + 130, x - 50, y + 100);
+                ctx.quadraticCurveTo(x - 30, y + 70, x, y + 100);
+                ctx.fillStyle = 'green';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(x, y + 140);
+                ctx.quadraticCurveTo(x + 30, y + 170, x + 50, y + 140);
+                ctx.quadraticCurveTo(x + 30, y + 110, x, y + 140);
+                ctx.fillStyle = 'green';
+                ctx.fill();
+
+                let dibujarPétalo = setInterval(function() {
+                    if (i < petalos) {
+                        let angulo = i * anguloPaso;
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        let xPetalo = x + Math.cos(angulo) * radioPétalo;
+                        let yPetalo = y + Math.sin(angulo) * radioPétalo;
+                        ctx.quadraticCurveTo(
+                            x + Math.cos(angulo + anguloPaso / 2) * (radioPétalo * 1.5),
+                            y + Math.sin(angulo + anguloPaso / 2) * (radioPétalo * 1.5),
+                            xPetalo,
+                            yPetalo
+                        );
+                        ctx.fillStyle = 'yellow';
+                        ctx.shadowColor = 'yellow';
+                        ctx.shadowBlur = 15;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        i++;
+                    } else {
+                        clearInterval(dibujarPétalo);
+                        ctx.beginPath();
+                        ctx.arc(x, y, radioCentro, 0, Math.PI * 2);
+                        ctx.fillStyle = 'orange';
+                        ctx.fill();
+                    }
+                }, intervaloDibujo);
+            }
+
+            let flores = [
+                {x: 150, y: 200, petalos: 40, radioPétalo: 80, radioCentro: 20, intervalo: 50},
+                {x: 300, y: 400, petalos: 50, radioPétalo: 80, radioCentro: 20, intervalo: 50},
+                {x: 450, y: 200, petalos: 45, radioPétalo: 80, radioCentro: 20, intervalo: 50}
+            ];
+
+            let i = 0;
+            let intervaloFlores = setInterval(function() {
+                if (i < flores.length) {
+                    let flor = flores[i];
+                    dibujarFlorConTallo(flor.x, flor.y, flor.petalos, flor.radioPétalo, flor.radioCentro, flor.intervalo);
+                    i++;
+                } else {
+                    clearInterval(intervaloFlores);
+                    document.querySelector('h1').innerHTML = '<i>Masiel❤️‍🩹</i>'; // Cambia el texto al final
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
